@@ -1,0 +1,12 @@
+{
+  "name": "nocturne-chess",
+  "version": "1.0.0",
+  "description": "Ноктюрн — шахматная академия: обучение с нуля, игра против бота и самообучающейся нейросети (2 скрытых слоя, TD-обучение, экспорт весов в JSON).",
+  "type": "module",
+  "scripts": {
+    "start": "npx --yes serve . -l 8080"
+  },
+  "keywords": ["chess", "шахматы", "tutorial", "neural-network", "reinforcement-learning", "td-learning", "vanilla-js", "game"],
+  "license": "MIT",
+  "private": false
+}

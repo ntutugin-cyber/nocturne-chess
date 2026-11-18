@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0d0b1e" />
+  <meta name="description" content="Ноктюрн — шахматная академия: обучение с нуля, игра против бота и самообучающейся нейросети." />
+  <title>Ноктюрн · Шахматная академия</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/board.css" />
+  <link rel="stylesheet" href="css/components.css" />
+</head>
+<body>
+  <div class="bg-aurora" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+  <div class="bg-grain" aria-hidden="true"></div>
+
+  <header class="topbar" id="topbar">
+    <a class="brand" href="#learn" id="logoBtn" aria-label="Ноктюрн — на главную">
+      <span class="brand-mark" id="brandMark"></span>
+      <span class="brand-text"><b>НОКТЮРН</b><small>шахматная академия</small></span>
+    </a>
+    <nav class="tabs" role="tablist" aria-label="Разделы">
+      <button class="tab" data-view="learn" role="tab"><i data-icon="book"></i><span class="t-long">Обучение</span><span class="t-short">Уроки</span></button>
+      <button class="tab" data-view="play" role="tab"><i data-icon="knight"></i><span class="t-long">Игра</span><span class="t-short">Игра</span></button>
+      <button class="tab" data-view="neural" role="tab"><i data-icon="chip"></i><span class="t-long">Нейросеть</span><span class="t-short">Сеть</span></button>
+    </nav>
+    <button class="icon-btn sound-btn" id="btnSound" aria-label="Звук" aria-pressed="true"><i data-icon="sound"></i></button>
+  </header>
+
+  <main class="main">
+
+    <!-- ═══════════ ОБУЧЕНИЕ ═══════════ -->
+    <section class="view" id="view-learn" aria-label="Обучение">
+      <div class="learn-grid">
+        <aside class="lesson-sidebar rise" style="--d:.05s">
+          <div class="sidebar-head">
+            <h2>Курс с нуля</h2>
+            <span class="progress-pill" id="lessonProgressLabel">0 / 18</span>
+          </div>
+          <div class="chapters" id="lessonSidebar"></div>
+          <button class="btn ghost tiny" id="btnResetProgress"><i data-icon="rotate"></i>Сбросить прогресс</button>
+        </aside>
+
+        <div class="lesson-main">
+          <div class="lesson-head rise" style="--d:.1s">
+            <span class="chapter-tag" id="lessonChapter"></span>
+            <h1 class="lesson-title" id="lessonTitle"></h1>
+            <div class="step-dots" id="stepDots"></div>
+          </div>
+
+          <div class="lesson-body">
+            <div class="lesson-text-col rise" style="--d:.15s">
+              <div class="lesson-text" id="stepText"></div>
+              <div class="quiz-box" id="quizBox" hidden></div>
+              <div class="task-banner" id="taskBanner" hidden></div>
+              <div class="lesson-done" id="lessonDoneCard" hidden>
+                <div class="done-glow"><i data-icon="trophy"></i></div>
+                <h3>Урок пройден!</h3>
+                <p id="doneText">Отличная работа. Двигаемся дальше.</p>
+                <button class="btn primary" id="btnNextLesson">Следующий урок<i data-icon="chevR"></i></button>
+              </div>
+            </div>
+            <div class="lesson-board-col rise" style="--d:.2s">
+              <div id="learnBoard"></div>
+              <div class="lesson-controls">
+                <button class="btn ghost" id="btnHint"><i data-icon="bulb"></i>Подсказка</button>
+                <button class="btn ghost" id="btnRestartStep"><i data-icon="rotate"></i>Заново</button>
+                <span class="spacer"></span>
+                <button class="btn ghost" id="btnPrevStep"><i data-icon="chevL"></i>Назад</button>
+                <button class="btn primary" id="btnNextStep">Далее<i data-icon="chevR"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ ИГРА ═══════════ -->
+    <section class="view" id="view-play" aria-label="Игра">
+      <div class="play-grid">
+        <aside class="play-left rise" style="--d:.05s">
+          <div class="panel player-card" id="cardTop">
+            <div class="pc-avatar" id="avTop"></div>
+            <div class="pc-info"><b id="nameTop">Соперник</b><small id="subTop">—</small>
+              <div class="captured" id="capTop"></div></div>
+            <div class="thinking" id="thinkTop" hidden><i></i><i></i><i></i></div>
+          </div>
+          <div class="panel status-panel">
+            <div class="status-line" id="statusLine">Нажмите «Новая партия», чтобы начать.</div>
+            <div class="opening-tag" id="openingTag" hidden></div>
+          </div>
+          <div class="panel">
+            <h3 class="panel-title">Управление</h3>
+            <div class="ctrl-stack">
+              <button class="btn primary" id="btnNewGame"><i data-icon="plus"></i>Новая партия</button>
+              <div class="ctrl-row">
+                <button class="btn ghost" id="btnUndo" title="Отменить ход"><i data-icon="undo"></i>Отмена</button>
+                <button class="btn ghost" id="btnHintMove" title="Подсказать лучший ход"><i data-icon="bulb"></i>Подсказка</button>
+              </div>
+              <div class="ctrl-row">
+                <button class="btn ghost" id="btnFlip" title="Перевернуть доску (F)"><i data-icon="flip"></i>Разворот</button>
+                <button class="btn danger" id="btnResign"><i data-icon="flag"></i>Сдаться</button>
+              </div>
+              <div class="ctrl-row">
+                <button class="btn ghost" id="btnCopyPgn"><i data-icon="copy"></i>PGN</button>
+                <button class="btn gold" id="btnAnalysis" hidden><i data-icon="sparkle"></i>Разбор партии</button>
+              </div>
+              <label class="switch-row"><span>Показывать ходы</span><button class="switch on" id="tglDots" role="switch" aria-checked="true"><i></i></button></label>
+              <label class="switch-row"><span>Координаты</span><button class="switch on" id="tglCoords" role="switch" aria-checked="true"><i></i></button></label>
+            </div>
+          </div>
+          <div class="panel player-card" id="cardBottom">
+            <div class="pc-avatar" id="avBottom"></div>
+            <div class="pc-info"><b id="nameBottom">Вы</b><small id="subBottom">белые</small>
+              <div class="captured" id="capBottom"></div></div>
+            <div class="thinking" id="thinkBottom" hidden><i></i><i></i><i></i></div>
+          </div>
+        </aside>
+
+        <div class="play-center rise" style="--d:.1s">
+          <div class="board-with-eval">
+            <div class="eval-bar" id="evalBar" title="Оценка позиции"><div class="eval-fill" id="evalFill"></div><span class="eval-label" id="evalLabel">0.0</span></div>
+            <div class="play-board-holder" id="playBoard"></div>
+          </div>
+          <div class="review-bar" id="reviewBar" hidden>
+            <button class="icon-btn" id="btnPrevPly" aria-label="Предыдущий ход"><i data-icon="chevL"></i></button>
+            <span id="reviewLabel">Просмотр</span>
+            <button class="icon-btn" id="btnNextPly" aria-label="Следующий ход"><i data-icon="chevR"></i></button>
+            <button class="btn ghost tiny" id="btnExitReview">К партии</button>
+          </div>
+        </div>
+
+        <aside class="play-right rise" style="--d:.15s">
+          <div class="panel moves-panel">
+            <h3 class="panel-title">Запись партии</h3>
+            <div class="move-list" id="moveList"><p class="empty-note">Ходы появятся здесь. Кликните по ходу, чтобы посмотреть позицию.</p></div>
+          </div>
+          <div class="panel tip-panel">
+            <h3 class="panel-title"><i data-icon="info"></i>Совет</h3>
+            <p id="playTip">Совсем новичок? Пройдите курс «Обучение» — 18 коротких уроков объяснят всё с нуля.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ═══════════ НЕЙРОСЕТЬ ═══════════ -->
+    <section class="view" id="view-neural" aria-label="Нейросеть">
+      <div class="neural-grid">
+        <div class="neural-left">
+          <div class="panel rise" style="--d:.05s">
+            <div class="train-head">
+              <h3 class="panel-title">Самообучение</h3>
+              <span class="state-badge" id="trainState">пауза</span>
+            </div>
+            <div class="train-board-holder" id="trainBoard"></div>
+            <div class="train-game-info" id="trainGameInfo">Партия 1 · ход 1</div>
+            <div class="result-chips" id="resultChips"></div>
+          </div>
+          <div class="panel rise" style="--d:.1s">
+            <h3 class="panel-title">Архитектура сети</h3>
+            <div class="arch-holder" id="archSvg"></div>
+            <details class="explainer">
+              <summary>Как это работает?</summary>
+              <p>Сеть получает позицию как <b>773 числа</b>: 12 слоёв по 64 клетки (где стоят пешки, кони, слоны, ладьи, ферзи и короли каждого цвета), очередь хода и 4 права на рокировку.</p>
+              <p>Дальше два <b>скрытых слоя</b> (128 и 64 нейрона, активация tanh) сжимают это в одну оценку от −1 до +1: «насколько позиция хороша для белых».</p>
+              <p>Обучение — <b>TD(0) с самоигрой</b>: сеть играет сама с собой, после каждого хода её прогноз чуть-чуть подтягивается к прогнозу следующей своей позиции, а в конце партии — к реальному результату. Сначала ходы почти случайны (исследование ε), со временем сеть начинает видеть взятия, шахи и маты.</p>
+              <p>Прогресс виден по двум графикам: <b>ошибка TD</b> должна снижаться, а <b>винрейт против случайного игрока</b> — расти. Заметный прогресс обычно появляется после 100–300 партий.</p>
+            </details>
+          </div>
+        </div>
+
+        <div class="neural-right">
+          <div class="stat-cards rise" style="--d:.08s">
+            <div class="stat-card"><small>Партий сыграно</small><b id="stGames">0</b></div>
+            <div class="stat-card"><small>Ходов обучено</small><b id="stMoves">0</b></div>
+            <div class="stat-card"><small>Ошибка TD</small><b id="stLoss">—</b></div>
+            <div class="stat-card"><small>Винрейт vs случайный</small><b id="stWin">—</b></div>
+            <div class="stat-card"><small>Исследование ε</small><b id="stEps">0.35</b></div>
+            <div class="stat-card"><small>Время обучения</small><b id="stTime">00:00</b></div>
+          </div>
+
+          <div class="panel rise" style="--d:.12s">
+            <div class="train-controls">
+              <button class="btn primary big" id="btnTrain"><i data-icon="play"></i><span>Начать обучение</span></button>
+              <button class="btn ghost" id="btnBenchBot"><i data-icon="knight"></i>Тест против бота</button>
+              <span class="bench-result" id="benchBotResult"></span>
+            </div>
+            <div class="slider-row"><label>Скорость <output id="valSpeed">40 ход/с</output></label>
+              <input type="range" id="rngSpeed" min="5" max="240" step="5" value="40" /></div>
+            <div class="slider-row"><label>Исследование ε <output id="valEps">0.35</output></label>
+              <input type="range" id="rngEps" min="0" max="0.6" step="0.01" value="0.35" /></div>
+            <div class="slider-row"><label>Шаг обучения α <output id="valLr">0.0010</output></label>
+              <input type="range" id="rngLr" min="0.0002" max="0.005" step="0.0002" value="0.001" /></div>
+            <div class="switch-pair">
+              <label class="switch-row"><span>Авто-снижение ε</span><button class="switch on" id="tglAutoEps" role="switch" aria-checked="true"><i></i></button></label>
+              <label class="switch-row"><span>Автосохранение</span><button class="switch on" id="tglAutosave" role="switch" aria-checked="true"><i></i></button></label>
+            </div>
+            <div class="net-io">
+              <button class="btn gold" id="btnSaveNet"><i data-icon="download"></i>Сохранить веса JSON</button>
+              <button class="btn ghost" id="btnLoadNet"><i data-icon="upload"></i>Загрузить веса</button>
+              <button class="btn danger" id="btnResetNet"><i data-icon="rotate"></i>Сбросить сеть</button>
+              <input type="file" id="fileNet" accept=".json,application/json" hidden />
+            </div>
+          </div>
+
+          <div class="panel rise" style="--d:.16s">
+            <h3 class="panel-title">Ошибка TD и исследование</h3>
+            <div class="legend"><span class="lg gold">ошибка TD</span><span class="lg violet">ε</span></div>
+            <canvas class="chart" id="chartLoss" height="150"></canvas>
+          </div>
+          <div class="panel rise" style="--d:.2s">
+            <h3 class="panel-title">Винрейт против случайного игрока, %</h3>
+            <div class="legend"><span class="lg cyan">каждые 10 партий — 2 контрольные игры</span></div>
+            <canvas class="chart" id="chartWin" height="150"></canvas>
+            <div class="res-bar-wrap">
+              <div class="res-bar" id="resBar"><i class="rw" id="resW"></i><i class="rd" id="resD"></i><i class="rl" id="resL"></i></div>
+              <div class="res-legend"><span class="lg green">белые: <b id="cntW">0</b></span><span class="lg slate">ничьи: <b id="cntD">0</b></span><span class="lg magenta">чёрные: <b id="cntL">0</b></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">Ноктюрн · шахматная академия — чистый HTML / CSS / JS, без зависимостей · MIT</footer>
+
+  <!-- ═══════════ МОДАЛКИ ═══════════ -->
+  <div class="modal" id="modal-newgame" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-label="Новая партия">
+      <button class="icon-btn modal-x" data-close aria-label="Закрыть"><i data-icon="x"></i></button>
+      <h2 class="modal-title">Новая партия</h2>
+      <form id="ngForm">
+        <div class="mode-cards">
+          <label class="mode-card"><input type="radio" name="ngMode" value="bot" checked />
+            <span class="mc-body"><i data-icon="knight"></i><b>Против бота</b><small>классический движок, 3 уровня</small></span></label>
+          <label class="mode-card"><input type="radio" name="ngMode" value="nn" />
+            <span class="mc-body"><i data-icon="chip"></i><b>Против нейросети</b><small>ваша обученная сеть</small></span></label>
+          <label class="mode-card"><input type="radio" name="ngMode" value="human" />
+            <span class="mc-body"><i data-icon="book"></i><b>Вдвоём</b><small>на одном устройстве</small></span></label>
+        </div>
+        <div class="form-row"><label>Ваш цвет</label>
+          <select id="ngColor"><option value="white">Белые (ход первый)</option><option value="black">Чёрные</option><option value="random">Случайно</option></select></div>
+        <div id="ngBotOpts">
+          <div class="form-row"><label>Уровень бота</label>
+            <div class="segmented" id="ngBotLevel">
+              <button type="button" data-lv="1">Новичок</button>
+              <button type="button" data-lv="2" class="on">Любитель</button>
+              <button type="button" data-lv="3">Мастер</button>
+            </div></div>
+        </div>
+        <div id="ngNNOpts" hidden>
+          <div class="form-row"><label>Случайность сети</label>
+            <select id="ngNNEps"><option value="0">Играет строго (ε = 0)</option><option value="0.08" selected>Немного импровизирует (ε = 0.08)</option></select></div>
+          <label class="switch-row"><span>Учить сеть на этой партии</span><button type="button" class="switch" id="ngNNLearn" role="switch" aria-checked="false"><i></i></button></label>
+          <p class="form-note" id="ngNNNote">Сеть ещё не обучалась — сыграет почти случайно. Обучите её на вкладке «Нейросеть».</p>
+        </div>
+        <button class="btn primary big full" type="submit" id="btnStartGame"><i data-icon="play"></i>Начать партию</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-analysis" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-card wide" role="dialog" aria-modal="true" aria-label="Разбор партии">
+      <button class="icon-btn modal-x" data-close aria-label="Закрыть"><i data-icon="x"></i></button>
+      <div class="analysis-head"><div class="ah-icon" id="analysisIcon"></div>
+        <div><h2 class="modal-title" id="analysisTitle">Разбор партии</h2><p class="analysis-sub" id="analysisSub"></p></div></div>
+      <div class="analysis-progress" id="analysisProgress"><div class="ap-bar"><i id="apFill"></i></div><span id="apText">Анализируем…</span></div>
+      <div class="analysis-body" id="analysisBody"></div>
+      <div class="analysis-actions">
+        <button class="btn ghost" id="btnCopyPgn2"><i data-icon="copy"></i>Скопировать PGN</button>
+        <span class="spacer"></span>
+        <button class="btn ghost" data-close>Закрыть</button>
+        <button class="btn primary" id="btnRematch"><i data-icon="rotate"></i>Реванш</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-confirm" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-card small" role="dialog" aria-modal="true">
+      <h2 class="modal-title" id="confirmTitle">Подтвердите</h2>
+      <p class="confirm-text" id="confirmText"></p>
+      <div class="confirm-actions">
+        <button class="btn ghost" id="btnConfirmNo">Отмена</button>
+        <button class="btn danger" id="btnConfirmYes">Да</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

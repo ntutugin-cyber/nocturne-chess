@@ -1,0 +1,49 @@
+/* ═══ Ноктюрн: палитра «полночь и свеча» ═══ */
+:root {
+  /* фоны и поверхности (холодные) */
+  --bg0: #07060f;
+  --bg1: #0d0b1e;
+  --surface: #151229;
+  --surface2: #1d1936;
+  --overlay: #241f42;
+  --scrim: rgba(5, 4, 12, .72);
+  --line: #2e2854;
+  --line2: #3b3468;
+
+  /* текст (тёплый) */
+  --ink: #f2ecdf;
+  --ink-dim: #a99fc4;
+  --ink-faint: #6f6694;
+
+  /* доминанта — свечное золото */
+  --gold: #e8b64c;
+  --gold2: #f6d488;
+  --gold-deep: #b07d24;
+  --gold-glow: rgba(232, 182, 76, .35);
+
+  /* акценты */
+  --cyan: #39d0ff;
+  --violet: #a78bfa;
+  --magenta: #ff4d8d;
+  --blue: #5b8cff;
+
+  /* семантика */
+  --success: #3ddc97;
+  --warning: #ffb020;
+  --danger: #ff5c5c;
+  --info: #39d0ff;
+
+  /* доска */
+  --sq-light: #cfbd93;
+  --sq-dark: #4e4370;
+  --frame: #191430;
+
+  /* прочее */
+  --r-sm: 8px; --r-md: 12px; --r-lg: 18px;
+  --shadow-1: 0 6px 24px rgba(0, 0, 0, .45);
+  --shadow-2: 0 18px 60px rgba(0, 0, 0, .6);
+  --font-ui: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  --header-h: 64px;
+}

@@ -1,0 +1,50 @@
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; min-height: 100vh;
+  background: radial-gradient(1200px 800px at 15% -10%, #171233 0%, var(--bg1) 45%, var(--bg0) 100%);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 15px; line-height: 1.55;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3 { font-family: var(--font-display); font-weight: 700; margin: 0; letter-spacing: .01em; }
+p { margin: 0 0 .6em; }
+button { font-family: inherit; cursor: pointer; }
+input, select, output { font-family: inherit; }
+a { color: var(--gold2); text-decoration: none; }
+::selection { background: var(--gold); color: #241a05; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 4px; }
+[hidden] { display: none !important; }
+
+/* скроллбары в стиле проекта */
+* { scrollbar-width: thin; scrollbar-color: var(--gold-deep) var(--surface); }
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: var(--surface); border-radius: 8px; }
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--gold-deep), #6b4d1a);
+  border-radius: 8px; border: 2px solid var(--surface);
+}
+*::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, var(--gold), var(--gold-deep)); }
+
+/* фон: аврора + зерно */
+.bg-aurora { position: fixed; inset: 0; z-index: -2; overflow: hidden; pointer-events: none; }
+.blob { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .8; }
+.b1 { width: 55vw; height: 55vw; left: -12vw; top: -18vw; background: radial-gradient(circle, rgba(232,182,76,.14), transparent 65%); animation: drift1 42s ease-in-out infinite alternate; }
+.b2 { width: 48vw; height: 48vw; right: -14vw; top: 6vh; background: radial-gradient(circle, rgba(57,208,255,.10), transparent 65%); animation: drift2 51s ease-in-out infinite alternate; }
+.b3 { width: 60vw; height: 60vw; left: 22vw; bottom: -30vw; background: radial-gradient(circle, rgba(167,139,250,.11), transparent 65%); animation: drift3 47s ease-in-out infinite alternate; }
+@keyframes drift1 { to { transform: translate(9vw, 7vh) scale(1.15); } }
+@keyframes drift2 { to { transform: translate(-8vw, 10vh) scale(1.1); } }
+@keyframes drift3 { to { transform: translate(-6vw, -8vh) scale(1.2); } }
+.bg-grain {
+  position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: .05; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* появление */
+.rise { animation: rise .6s cubic-bezier(.2, .7, .2, 1) both; animation-delay: var(--d, 0s); }
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
