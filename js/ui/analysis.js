@@ -22,7 +22,10 @@ function describeMate(pos) {
   const escapes = [];
   for (const o of KG_OFFS) {
     const t = k + o;
-    if (!onBoard(t)) { escapes.push(`${'abcdefgh'[Math.max(0, Math.min(7, fileOf(k) + (o & 15) > 7 ? 0 : (o & 15))) }…} — край доски`); continue; }
+    if (!onBoard(t)) { 
+        escapes.push(`${'abcdefgh'[Math.max(0, Math.min(7, fileOf(k) + ((o & 15) > 7 ? 0 : (o & 15))))]}… — край доски`); 
+        continue; 
+    }
     const q = pos.board[t];
     const name = sqName(t);
     if (q && Math.sign(q) === loser) escapes.push(`<b>${name}</b> занято своей фигурой (${RU[Math.abs(q)]})`);
